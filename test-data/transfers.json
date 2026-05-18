@@ -1,0 +1,19 @@
+{
+  "validTransfers": [
+    { "tcId": "TC-UI-01", "description": "standard valid transfer", "amount": "100" },
+    { "tcId": "TC-UI-02", "description": "minimum valid amount", "amount": "0.01" },
+    { "tcId": "TC-UI-04", "description": "verify success message", "amount": "50" },
+    { "tcId": "TC-UI-05", "description": "verify confirmation details", "amount": "75" },
+    { "tcId": "TC-E2E-01", "description": "e2e balance validation", "amount": "100" },
+    { "tcId": "TC-E2E-02-first", "description": "first sequential transfer", "amount": "50" },
+    { "tcId": "TC-E2E-02-second", "description": "second sequential transfer", "amount": "75" },
+    { "tcId": "TC-E2E-03", "description": "concurrency double-click", "amount": "10" }
+  ],
+  "negativeTransfers": [
+    { "tcId": "TC-UI-06", "description": "insufficient funds", "amount": "999999" },
+    { "tcId": "TC-UI-07", "description": "self-transfer", "amount": "50", "knownBug": true },
+    { "tcId": "TC-UI-08", "description": "zero amount", "amount": "0" },
+    { "tcId": "TC-UI-09", "description": "negative amount", "amount": "-50" },
+    { "tcId": "TC-UI-10", "description": "non-numeric amount", "amount": "abc$$" }
+  ]
+}

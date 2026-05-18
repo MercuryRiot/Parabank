@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Failure Analysis Report</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 2rem; background: #f8fafc; color: #111827; }
+    h1 { margin-top: 0; }
+    .summary { margin-bottom: 1.5rem; }
+    .summary span { font-size: 0.95rem; }
+    .chart { margin: 1rem 0; }
+    table { width: 100%; border-collapse: collapse; background: #ffffff; }
+    th, td { padding: 0.9rem 0.75rem; border-bottom: 1px solid #e5e7eb; text-align: left; }
+    th { background: #f3f4f6; font-weight: 700; }
+    tr:nth-child(even) { background: #fafafa; }
+    .footer { margin-top: 1.5rem; color: #6b7280; font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+  <h1>Failure Analysis Report</h1>
+  <div class="summary">
+    <span style="display:inline-block;padding:0.4rem 0.75rem;margin-right:0.5rem;border-radius:999px;background:#2563eb;color:#fff;font-weight:600;font-family:system-ui, sans-serif;">Total: 0</span>
+    <span style="display:inline-block;padding:0.4rem 0.75rem;margin-right:0.5rem;border-radius:999px;background:#22c55e;color:#fff;font-weight:600;font-family:system-ui, sans-serif;">Passed: 0</span>
+    <span style="display:inline-block;padding:0.4rem 0.75rem;margin-right:0.5rem;border-radius:999px;background:#ef4444;color:#fff;font-weight:600;font-family:system-ui, sans-serif;">Failed: 0</span>
+    <span style="display:inline-block;padding:0.4rem 0.75rem;margin-right:0.5rem;border-radius:999px;background:#6b7280;color:#fff;font-weight:600;font-family:system-ui, sans-serif;">Skipped: 0</span>
+  </div>
+  <div class="chart">
+    <svg width="100%" height="32" viewBox="0 0 100 10" role="img" aria-label="Pass fail skip chart">
+      <rect x="0" y="1" width="0" height="8" fill="#22c55e" />
+      <rect x="0" y="1" width="0" height="8" fill="#ef4444" />
+      <rect x="0" y="1" width="100" height="8" fill="#6b7280" />
+      <text x="50" y="9.5" text-anchor="middle" fill="#111827" font-size="2.5">Passed 0 | Failed 0 | Skipped 0</text>
+    </svg>
+  </div>
+  <h2>Failures</h2>
+  <table>
+    <thead>
+      <tr><th>Test Name</th><th>Error Message</th><th>Duration</th></tr>
+    </thead>
+    <tbody>
+      <tr><td colspan="3">No failures detected</td></tr>
+    </tbody>
+  </table>
+  <div class="footer">Generated 2026-05-18T09:17:41.982Z</div>
+</body>
+</html>

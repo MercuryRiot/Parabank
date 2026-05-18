@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest", "--headless"],
+      "env": { "BASE_URL": "https://parabank.parasoft.com" }
+    }
+  }
+}

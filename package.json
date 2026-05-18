@@ -1,0 +1,24 @@
+{
+  "name": "parabank-playwright",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test tests/ui",
+    "test:api": "playwright test tests/api",
+    "test:e2e": "playwright test tests/e2e",
+    "test:perf": "playwright test tests/performance-lite",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:regression": "playwright test --grep @regression",
+    "report:allure": "allure generate allure-results --clean -o allure-report && allure open",
+    "analyze": "ts-node utils/failureAnalyzer.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.44.0",
+    "allure-playwright": "^3.0.0",
+    "allure-commandline": "^2.27.0",
+    "typescript": "^5.4.0",
+    "ts-node": "^10.9.0",
+    "@types/node": "^20.0.0",
+    "dotenv": "^16.0.0"
+  }
+}
