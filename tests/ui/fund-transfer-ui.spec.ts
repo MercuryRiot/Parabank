@@ -124,16 +124,12 @@ test.describe('@regression @ui - Fund Transfer UI Regression', () => {
     await transferPage.setAmount(tr.amount)
     await transferPage.clickTransfer()
 
-    // Server correctly blocks non-numeric input — no success banner shown
     const success = await transferPage.isSuccessVisible()
     expect(success).toBe(false)
 
-    // DEF-006: Server blocks the transfer but renders no inline client-side
-    // validation message. The assertion below checks for this UX gap and
-    // annotates the report rather than failing, since the core security
-    // behaviour (blocking the transfer) is correct.
+    // DEF-006: annotate missing inline validation message
     const page = transferPage['page']
-    const hasValidationMsg = await page.locator('.error, #error, [class*="error"]').isVisible().catch(() => false)
+    const hasValidationMsg = await page.locator('.error, #error, [class*=\"error\"]').isVisible().catch(() => false)
     if (!hasValidationMsg) {
       test.info().annotations.push({
         type: 'DEF-006',
@@ -143,4 +139,3 @@ test.describe('@regression @ui - Fund Transfer UI Regression', () => {
   })
 })
 
-// known-bug describe block removed; TC-UI-07 moved into regression block

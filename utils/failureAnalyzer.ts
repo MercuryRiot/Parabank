@@ -46,7 +46,6 @@ function collectTests(suite: SuiteEntry, tests: TestEntry[]) {
       }
     }
   }
-  // Direct tests field (Playwright JSON reporter structure)
   if ((suite as any).tests) {
     tests.push(...(suite as any).tests);
   }
@@ -91,14 +90,11 @@ export const failureAnalyzer = {
     const tests: TestEntry[] = [];
     if (report.suites) {
       for (const suite of report.suites) {
-        // Guard: only collect from suites that have nested suites/specs
         if (!suite) continue;
         collectTests(suite, tests);
       }
     }
     console.log(`[FailureAnalyzer] Collected ${tests.length} tests`);
-    // Debug: print first few test titles and statuses
-    console.log('[FailureAnalyzer] Sample tests:', tests.slice(0, 8).map(t => ({ title: t.title, status: (t as any).status })) );
 
     const failureRows: string[] = [];
     let passedCount = 0;
@@ -106,7 +102,6 @@ export const failureAnalyzer = {
     let skippedCount = 0;
 
     for (const test of tests) {
-      // Guard: ensure test structure is present
       if (!test) continue;
       const title = normalizeTitle((test as any).title ?? '');
       const testStatus = (test as any).status as string | undefined;
@@ -128,7 +123,6 @@ export const failureAnalyzer = {
       } else if (testStatus === 'skipped') {
         skippedCount += 1;
       } else {
-        // Fallback: if status missing, infer from lastResult
         if (lastResult?.status === 'failed' || lastResult?.status === 'timedOut') {
           failedCount += 1;
           const rawMsg = lastResult?.error?.message ?? 'No error message';
