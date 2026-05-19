@@ -79,7 +79,8 @@ function renderBarChart(passed: number, failed: number, skipped: number) {
 
 export const failureAnalyzer = {
   generateFailureReport: async (): Promise<void> => {
-    const resultsPath = path.join('reports', 'results.json');
+    const resultsPath = path.resolve(process.cwd(), 'reports', 'results.json');
+    console.log(`[FailureAnalyzer] Looking for results at: ${resultsPath}`);
     if (!fs.existsSync(resultsPath)) {
       console.log('[FailureAnalyzer] No results.json found — skipping report');
       return;
