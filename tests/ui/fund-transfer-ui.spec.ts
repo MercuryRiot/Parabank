@@ -69,7 +69,6 @@ test.describe('@regression @ui - Fund Transfer UI Regression', () => {
   })
 
   test('TC-UI-06: Transfer $999999 (insufficient funds)', async ({ transferPage, accountPair }) => {
-    test.fail()
     const tr = findTransfer('TC-UI-06')!
     await transferPage.navigate()
     await transferPage.selectFromAccount(accountPair.fromAccountId)
@@ -82,7 +81,6 @@ test.describe('@regression @ui - Fund Transfer UI Regression', () => {
   })
 
   test('TC-UI-08: Transfer $0 (zero amount)', async ({ transferPage, accountPair }) => {
-    test.fail(true, 'DEF-004: Zero-amount transfer accepted without validation');
     const tr = findTransfer('TC-UI-08')!
     await transferPage.navigate()
     await transferPage.selectFromAccount(accountPair.fromAccountId)
@@ -95,11 +93,22 @@ test.describe('@regression @ui - Fund Transfer UI Regression', () => {
   })
 
   test('TC-UI-09: Transfer -$50 (negative amount)', async ({ transferPage, accountPair }) => {
-    test.fail(true, 'DEF-002: Negative amount accepted — reverse transfer vulnerability');
     const tr = findTransfer('TC-UI-09')!
     await transferPage.navigate()
     await transferPage.selectFromAccount(accountPair.fromAccountId)
     await transferPage.selectToAccount(accountPair.toAccountId)
+    await transferPage.setAmount(tr.amount)
+    await transferPage.clickTransfer()
+    
+    const success = await transferPage.isSuccessVisible()
+    expect(success).toBe(false)
+  })
+
+  test('TC-UI-07: Self-transfer not blocked (DEF-003)', async ({ transferPage, accountPair }) => {
+    const tr = findTransfer('TC-UI-07')!
+    await transferPage.navigate()
+    await transferPage.selectFromAccount(accountPair.fromAccountId)
+    await transferPage.selectToAccount(accountPair.fromAccountId) // same account
     await transferPage.setAmount(tr.amount)
     await transferPage.clickTransfer()
     
@@ -114,24 +123,24 @@ test.describe('@regression @ui - Fund Transfer UI Regression', () => {
     await transferPage.selectToAccount(accountPair.toAccountId)
     await transferPage.setAmount(tr.amount)
     await transferPage.clickTransfer()
-    
+
+    // Server correctly blocks non-numeric input — no success banner shown
     const success = await transferPage.isSuccessVisible()
     expect(success).toBe(false)
+
+    // DEF-006: Server blocks the transfer but renders no inline client-side
+    // validation message. The assertion below checks for this UX gap and
+    // annotates the report rather than failing, since the core security
+    // behaviour (blocking the transfer) is correct.
+    const page = transferPage['page']
+    const hasValidationMsg = await page.locator('.error, #error, [class*="error"]').isVisible().catch(() => false)
+    if (!hasValidationMsg) {
+      test.info().annotations.push({
+        type: 'DEF-006',
+        description: 'UX defect: transfer blocked correctly but no inline validation message rendered for non-numeric input'
+      })
+    }
   })
 })
 
-test.describe('@known-bug @ui - Fund Transfer Known Bugs', () => {
-  test('TC-UI-07: Self-transfer not blocked (DEF-003)', async ({ transferPage, accountPair }) => {
-    test.fail(true, 'DEF-003: self-transfer not blocked by ParaBank')
-    
-    const tr = findTransfer('TC-UI-07')!
-    await transferPage.navigate()
-    await transferPage.selectFromAccount(accountPair.fromAccountId)
-    await transferPage.selectToAccount(accountPair.fromAccountId) // same account
-    await transferPage.setAmount(tr.amount)
-    await transferPage.clickTransfer()
-    
-    const success = await transferPage.isSuccessVisible()
-    expect(success).toBe(false)
-  })
-})
+// known-bug describe block removed; TC-UI-07 moved into regression block

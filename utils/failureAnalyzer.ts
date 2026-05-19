@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 interface TestResultEntry {
-  status: 'expected' | 'unexpected' | 'skipped';
+  status: 'passed' | 'failed' | 'skipped' | 'timedOut' | 'interrupted';
   duration: number;
   error?: { message?: string };
 }
@@ -10,9 +10,11 @@ interface TestResultEntry {
 interface TestEntry {
   title: string;
   results: TestResultEntry[];
+  status: 'expected' | 'unexpected' | 'skipped';
 }
 
 interface SpecEntry {
+  title?: string;
   tests: TestEntry[];
 }
 
@@ -29,13 +31,24 @@ function normalizeTitle(title: string | undefined): string {
   return (title ?? '').replace(/\s+/g, ' ').trim();
 }
 
+function stripAnsi(str: string): string {
+  return str.replace(/\x1B\[[0-9;]*m/g, '');
+}
+
 function collectTests(suite: SuiteEntry, tests: TestEntry[]) {
   if (suite.specs) {
     for (const spec of suite.specs) {
       if (spec.tests) {
-        tests.push(...spec.tests);
+        for (const t of spec.tests) {
+          if (!t.title) (t as any).title = spec.title;
+          tests.push(t);
+        }
       }
     }
+  }
+  // Direct tests field (Playwright JSON reporter structure)
+  if ((suite as any).tests) {
+    tests.push(...(suite as any).tests);
   }
   if (suite.suites) {
     for (const child of suite.suites) {
@@ -82,6 +95,9 @@ export const failureAnalyzer = {
         collectTests(suite, tests);
       }
     }
+    console.log(`[FailureAnalyzer] Collected ${tests.length} tests`);
+    // Debug: print first few test titles and statuses
+    console.log('[FailureAnalyzer] Sample tests:', tests.slice(0, 8).map(t => ({ title: t.title, status: (t as any).status })) );
 
     const failureRows: string[] = [];
     let passedCount = 0;
@@ -90,24 +106,44 @@ export const failureAnalyzer = {
 
     for (const test of tests) {
       // Guard: ensure test structure is present
-      if (!test || !test.title) continue;
+      if (!test) continue;
+      const title = normalizeTitle((test as any).title ?? '');
+      const testStatus = (test as any).status as string | undefined;
       const lastResult = test.results?.[test.results.length - 1];
-      if (!lastResult) continue;
-      const title = normalizeTitle(test.title);
-      if (lastResult.status === 'unexpected') {
+
+      if (testStatus === 'unexpected') {
         failedCount += 1;
-        const errorMessage = lastResult.error?.message?.replace(/\n/g, '<br>') ?? 'No error message';
+        const rawMsg = lastResult?.error?.message ?? 'No error message';
+        const errorMessage = stripAnsi(rawMsg).replace(/\n/g, '<br>');
         failureRows.push(`
           <tr>
             <td>${title}</td>
             <td>${errorMessage}</td>
-            <td>${lastResult.duration.toFixed(0)} ms</td>
+            <td>${(lastResult?.duration ?? 0).toFixed(0)} ms</td>
           </tr>
         `);
-      } else if (lastResult.status === 'expected') {
+      } else if (testStatus === 'expected') {
         passedCount += 1;
-      } else if (lastResult.status === 'skipped') {
+      } else if (testStatus === 'skipped') {
         skippedCount += 1;
+      } else {
+        // Fallback: if status missing, infer from lastResult
+        if (lastResult?.status === 'failed' || lastResult?.status === 'timedOut') {
+          failedCount += 1;
+          const rawMsg = lastResult?.error?.message ?? 'No error message';
+          const errorMessage = stripAnsi(rawMsg).replace(/\n/g, '<br>');
+          failureRows.push(`
+            <tr>
+              <td>${title}</td>
+              <td>${errorMessage}</td>
+              <td>${(lastResult?.duration ?? 0).toFixed(0)} ms</td>
+            </tr>
+          `);
+        } else if (lastResult?.status === 'passed') {
+          passedCount += 1;
+        } else if (lastResult?.status === 'skipped') {
+          skippedCount += 1;
+        }
       }
     }
 
