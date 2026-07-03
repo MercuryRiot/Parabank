@@ -1,0 +1,9 @@
+# Auto-detect text files and normalize line endings
+* text=auto
+
+# Ensure HTML files use LF in the repository and on checkout
+*.html text eol=lf
+
+# You can add other extensions as needed, for example:
+# *.css text eol=lf
+# *.js text eol=lf
