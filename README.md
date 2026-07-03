@@ -1,5 +1,7 @@
 # Parabank Playwright
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![Node.js 18+](https://img.shields.io/badge/Node.js-18%2B-brightgreen)](https://nodejs.org/) [![Playwright](https://img.shields.io/badge/Playwright-Test-blue.svg)](https://playwright.dev/)
+
 A TypeScript-based Playwright test suite for the Parabank application. This project includes UI, API, end-to-end, and performance tests, plus report generation for HTML, Allure, and custom failure analysis.
 
 ## Prerequisites
@@ -29,15 +31,13 @@ npm install
 npx playwright install
 ```
 
-4. (Optional) Create a `.env` file if you need to override defaults:
+4. Copy the example environment file:
 
 ```bash
-# .env
-BASE_URL=https://parabank.parasoft.com
-API_BASE=https://parabank.parasoft.com/parabank/services/bank
-PASSWORD=demo1234
-CUSTOMER_ID=
+cp .env.example .env
 ```
+
+5. Edit `.env` only if you need to override defaults.
 
 ## Usage
 
@@ -69,6 +69,23 @@ Run the custom failure analysis report generator:
 ```bash
 npm run analyze
 ```
+
+## Configuration
+
+Create a local `.env` file from the example and update values only when needed:
+
+```bash
+cp .env.example .env
+```
+
+The project supports these variables:
+
+- `BASE_URL` — base web application URL for UI tests.
+- `API_BASE` — base API endpoint for service calls.
+- `PASSWORD` — default password used for generated test users.
+- `CUSTOMER_ID` — optional customer ID override.
+
+If `.env` is missing, defaults from `config/env.config.ts` are used.
 
 ## Project Structure
 
@@ -125,6 +142,10 @@ The project can be customized using environment variables.
 - `CUSTOMER_ID` — optional customer ID override.
 
 If no `.env` file is present, defaults from `config/env.config.ts` are used.
+
+## License
+
+This project is licensed under the MIT License. See `LICENSE` for details.
 
 ## Notes
 
