@@ -7,3 +7,9 @@
 # You can add other extensions as needed, for example:
 # *.css text eol=lf
 # *.js text eol=lf
+
+# Mark generated reports so GitHub Linguist excludes them from language stats
+allure-report/** linguist-generated=true
+allure-results/** linguist-generated=true
+deliverables/** linguist-generated=true
+reports/** linguist-generated=true
