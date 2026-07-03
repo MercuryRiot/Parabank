@@ -19,17 +19,17 @@
 <body>
   <h1>Failure Analysis Report</h1>
   <div class="summary">
-    <span style="display:inline-block;padding:0.4rem 0.75rem;margin-right:0.5rem;border-radius:999px;background:#2563eb;color:#fff;font-weight:600;font-family:system-ui, sans-serif;">Total: 32</span>
-    <span style="display:inline-block;padding:0.4rem 0.75rem;margin-right:0.5rem;border-radius:999px;background:#22c55e;color:#fff;font-weight:600;font-family:system-ui, sans-serif;">Passed: 24</span>
-    <span style="display:inline-block;padding:0.4rem 0.75rem;margin-right:0.5rem;border-radius:999px;background:#ef4444;color:#fff;font-weight:600;font-family:system-ui, sans-serif;">Failed: 8</span>
+    <span style="display:inline-block;padding:0.4rem 0.75rem;margin-right:0.5rem;border-radius:999px;background:#2563eb;color:#fff;font-weight:600;font-family:system-ui, sans-serif;">Total: 1</span>
+    <span style="display:inline-block;padding:0.4rem 0.75rem;margin-right:0.5rem;border-radius:999px;background:#22c55e;color:#fff;font-weight:600;font-family:system-ui, sans-serif;">Passed: 1</span>
+    <span style="display:inline-block;padding:0.4rem 0.75rem;margin-right:0.5rem;border-radius:999px;background:#ef4444;color:#fff;font-weight:600;font-family:system-ui, sans-serif;">Failed: 0</span>
     <span style="display:inline-block;padding:0.4rem 0.75rem;margin-right:0.5rem;border-radius:999px;background:#6b7280;color:#fff;font-weight:600;font-family:system-ui, sans-serif;">Skipped: 0</span>
   </div>
   <div class="chart">
     <svg width="100%" height="32" viewBox="0 0 100 10" role="img" aria-label="Pass fail skip chart">
-      <rect x="0" y="1" width="75" height="8" fill="#22c55e" />
-      <rect x="75" y="1" width="25" height="8" fill="#ef4444" />
+      <rect x="0" y="1" width="100" height="8" fill="#22c55e" />
+      <rect x="100" y="1" width="0" height="8" fill="#ef4444" />
       <rect x="100" y="1" width="0" height="8" fill="#6b7280" />
-      <text x="50" y="9.5" text-anchor="middle" fill="#111827" font-size="2.5">Passed 24 | Failed 8 | Skipped 0</text>
+      <text x="50" y="9.5" text-anchor="middle" fill="#111827" font-size="2.5">Passed 1 | Failed 0 | Skipped 0</text>
     </svg>
   </div>
   <h2>Failures</h2>
@@ -38,57 +38,9 @@
       <tr><th>Test Name</th><th>Error Message</th><th>Duration</th></tr>
     </thead>
     <tbody>
-      
-          <tr>
-            <td>TC-UI-06: Transfer $999999 (insufficient funds)</td>
-            <td>Error: expect(received).toBe(expected) // Object.is equality<br><br>Expected: false<br>Received: true</td>
-            <td>3076 ms</td>
-          </tr>
-        
-          <tr>
-            <td>TC-UI-08: Transfer $0 (zero amount)</td>
-            <td>Error: expect(received).toBe(expected) // Object.is equality<br><br>Expected: false<br>Received: true</td>
-            <td>3285 ms</td>
-          </tr>
-        
-          <tr>
-            <td>TC-UI-09: Transfer -$50 (negative amount)</td>
-            <td>Error: expect(received).toBe(expected) // Object.is equality<br><br>Expected: false<br>Received: true</td>
-            <td>3378 ms</td>
-          </tr>
-        
-          <tr>
-            <td>TC-UI-07: Self-transfer not blocked (DEF-003)</td>
-            <td>Error: expect(received).toBe(expected) // Object.is equality<br><br>Expected: false<br>Received: true</td>
-            <td>3177 ms</td>
-          </tr>
-        
-          <tr>
-            <td>TC-UI-06: Transfer $999999 (insufficient funds)</td>
-            <td>Error: expect(received).toBe(expected) // Object.is equality<br><br>Expected: false<br>Received: true</td>
-            <td>3298 ms</td>
-          </tr>
-        
-          <tr>
-            <td>TC-UI-08: Transfer $0 (zero amount)</td>
-            <td>Error: expect(received).toBe(expected) // Object.is equality<br><br>Expected: false<br>Received: true</td>
-            <td>4003 ms</td>
-          </tr>
-        
-          <tr>
-            <td>TC-UI-09: Transfer -$50 (negative amount)</td>
-            <td>Error: expect(received).toBe(expected) // Object.is equality<br><br>Expected: false<br>Received: true</td>
-            <td>4748 ms</td>
-          </tr>
-        
-          <tr>
-            <td>TC-UI-07: Self-transfer not blocked (DEF-003)</td>
-            <td>Error: expect(received).toBe(expected) // Object.is equality<br><br>Expected: false<br>Received: true</td>
-            <td>4715 ms</td>
-          </tr>
-        
+      <tr><td colspan="3">No failures detected</td></tr>
     </tbody>
   </table>
-  <div class="footer">Generated 2026-05-19T08:42:14.554Z</div>
+  <div class="footer">Generated 2026-07-03T12:32:15.709Z</div>
 </body>
 </html>
